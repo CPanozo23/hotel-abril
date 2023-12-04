@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Abril</title>
+    <!-- comentario Rogger-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+  
+    {% include 'componentes/nav.html' %}
+    <main>
+      <section id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active bg-white" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" class="bg-white" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" class="bg-white" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner bg-warning">
+          <div class="carousel-item active" data-bs-interval="8000">
+            <img src="{{ url_for('static', filename='images/home/home01.jpg') }}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <p class="text-white fst-italic" style="font-size: 5em;">Hotel Abril</p>
+            </div>
+          </div>
+          <div class="carousel-item" data-bs-interval="8000">
+            <img src="{{ url_for('static', filename='images/home/home02.jpg') }}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <p class="text-black fst-italic" style="font-size: 5em;">Hotel Abril</p>
+            </div>
+          </div>
+          <div class="carousel-item" data-bs-interval="8000">
+            <img src="{{ url_for('static', filename='images/home/home03.jpg') }}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <p class="text-white fst-italic" style="font-size: 5em;">Hotel Abril</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="bg-black p-5">
+        <article class="container text-center">
+        <h1 class="text-warning">Ofertas dentro de nuestro hotel: ¡apueste por el lujo, la emoción y los recuerdos inolvidables!</h1>
+        </article>
+    </section>
+    <section class="container my-3">
+      <h2 class="fs-1 text-center">Encuentra tu hotel más cercano</h2>
+      <div class="accordion accordion-flush bg-primary p-2" id="accordionFlushExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                Antofagasta
+              </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">Avenida Argentina #123.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                Viña del Mar
+              </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">Avenida Providencia #654.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                Mejillones
+              </button>
+            </h2>
+            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">Calle San Martín #876.</div>
+            </div>
+          </div>
+        </div>
+  </section>
+  <section class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img src="{{ url_for('static', filename='images/home/antofa.jpg') }}" class="card-img-top" alt="Hotel Antofagasta">
+            <div class="card-body">
+              <h5 class="card-title">Antofagasta</h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img src="{{ url_for('static', filename='images/home/vmar.jpg') }}" class="card-img-top" alt="Hotel Viña del Mar">
+            <div class="card-body">
+              <h5 class="card-title">Viña del Mar</h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img src="{{ url_for('static', filename='images/home/meji.jpg') }}" class="card-img-top" alt="Hotel Mejillones">
+            <div class="card-body">
+              <h5 class="card-title">Mejillones</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+
+<section class="bg-dark">
+    <article class="container p-3 text-white">
+    <h2 class="fs-1 text-center text-warning">¡Restaurante!</h2>
+    <p>Lo único que nos importa es que nuestros huéspedes se sientan cómodos en nuestro bar. Queremos que disfruten de sus bebidas y de sus conversaciones, y estamos felices de invitar a todos a relajarse en nuestros cómodos sofás lounge y terminar la velada con una bebida especial de autor.
+      </p>
+      <h3 class="text-center text-warning">HORARIOS</h3>
+      <p class="text-center">
+      <span class="text-warning">DESAYUNO:</span> Desde 07:00 hasta las 10:30 horas. <br>
+      <span class="text-warning">RESTAURANT:</span> Desde 12:30 hasta las 23:00 horas. <br>
+      <span class="text-warning">BAR:</span> Desde 12:00 hasta las 23:45 horas.
+    </p>
+    </article>
+</section>
+
+<section class="container text-center p-3">
+  <div class="row align-items-start">
+    <div class="col-md-4 mb-4">
+      <div class="card text-bg-dark mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Inmersión en la cultura local</h5>
+          <p class="card-text">Vaya más allá del brillo del casino y sumérjase en el corazón de las ciudades que visita. Explore lugares históricos, sumérjase en la escena artística local o participe en vibrantes festivales.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card text-bg-dark mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Delicias Gastronómicas</h5>
+                <p class="card-text">Embárquese en una exploración culinaria para deleitar su paladar. Nuestros paquetes incluyen experiencias gastronómicas exclusivas en algunos de los mejores restaurantes del mundo.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card text-bg-dark mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Bienestar y Relajación</h5>
+                <p class="card-text">Equilibre su experiencia de casino de alto octanaje con una dosis de relajación. Nuestros paquetes incluyen acceso a spas de lujo, retiros de yoga y clínicas de bienestar donde podrá rejuvenecer y refrescarse.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    </main>
+    
+
+    {% include 'componentes/footer.html' %}
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
