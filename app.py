@@ -39,6 +39,13 @@ def ver_habitaciones():
     habitaciones_db = list(db.habitacion.find())
     return render_template('habitaciones.html', habitaciones=habitaciones_db)
 
+#HABITACIONES POR ID
+@app.route('/habitacion/<habitacion_id>', methods=['GET'])
+def mostrar_detalle_habitacion(habitacion_id):
+    habitacion_db = db.habitacion.find_one({'_id': ObjectId(habitacion_id)})
+    return render_template('detalle_habitaciones.html', habitacion=habitacion_db)
+
+
 @app.errorhandler(404)
 def notFound(error=None):
     message = {
