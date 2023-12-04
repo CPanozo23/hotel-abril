@@ -136,7 +136,7 @@ def cambiar_estado_reserva(id_res):
     
         reservas.update_one({'id_res': id_res}, {'$set': {'estado': nuevo_estado}})
     return redirect(url_for('gestion_reservas'))
-"""
+
 # GESTION CONTACTO
 @app.route('/gestion_contacto')
 def gestion_contacto():
@@ -159,26 +159,25 @@ def agregar_mensaje():
     correo = request.form['correo']
     mensaje = request.form['mensaje']
     estado = "Recibido"
-    mensaje = Mensaje(asunto, nombre, apellido, correo, mensaje, estado)
+    id_men = len(list(db.mensajes.find()))+1
+    mensaje = Mensaje(asunto, nombre, apellido, correo, mensaje, estado, id_men)
     mensajes.insert_one(mensaje.to_db_collection())
     return redirect(url_for('home'))
 
-
-
-
-
 #MENSAJES: CAMBIAR ESTADO -> POST
-@app.route('/estado_msj/<mensaje_id>', methods=['POST'])
-def cambiar_estado_msj(mensaje_id):
-    nuevo_estado = 'c'
+@app.route('/estado_msj/<id_men>', methods=['POST'])
+def cambiar_estado_msj(id_men):
+    id_men = int(id_men)
+    print(id_men)
+    nuevo_estado = 'Respondido'
     mensajes = db.mensajes
-    mensaje_id_obj = ObjectId(request.form['_id'])
+    mensaje_id_obj = request.form['id_men']
 
-    mensajes.update_one({'_id': mensaje_id_obj}, {'$set': {'estado': nuevo_estado}})
+    mensajes.update_one({'id_men': id_men}, {'$set': {'estado': "Respondido"}})
+    #mensajes.update_one({'id_men': mensaje_id_obj}, {'$set': {'estado': nuevo_estado}})
     return redirect(url_for('gestion_contacto'))
 
 
-"""
 
 #LOGIN: POST
 @app.route('/admin/login', methods=['POST'])

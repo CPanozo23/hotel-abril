@@ -24,8 +24,9 @@
                     <div class="col-sm-6 col-md-5 col-lg-4 col-6 fw-light">{{ mensaje['correo'] }}</div>
                     <div class="col-12">{{ mensaje['mensaje'] }}</div>
                 </div>
-                <form class="col-sm-3 col-md-2 col-lg-2 col-12 text-center" action="{{ url_for('cambiar_estado_msj', mensaje_id=mensaje['_id']) }}" method="post">
-                    <input type="hidden" name="_id" value="{{ mensaje['_id'] }}">
+                <form class="col-sm-3 col-md-2 col-lg-2 col-12 text-center" action="{{ url_for('cambiar_estado_msj', id_men=mensaje['id_men']) }}" method="post">
+                    <!--<input type="hidden" name="estado" value="{{ mensaje['estado']}}">-->
+                    <input type="hidden" name="id_men" value="{{ mensaje['id_men'] }}">
                     {% if mensaje['estado'] == 'Recibido' %}
                     <input type="submit" class="btn btn-danger" value="Sin responder">
                     {% elif mensaje['estado'] == 'Respondido' %}
