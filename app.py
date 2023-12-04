@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, jsonify, session, request, flash
 
 app = Flask(__name__)
-"""app.secret_key ="dfghjkl"
+app.secret_key ="dfghjkl"
 import database as dbase
 from models.reserva import Reserva
 from models.mensaje import Mensaje
@@ -10,7 +10,7 @@ db = dbase.dbConnection()
 from bson import ObjectId
 
 from datetime import datetime, timedelta 
-"""
+
 #Datos para hoja NOSOTROS
 from data.data_general import personal_data
 #Datos para validar usuario
@@ -32,12 +32,20 @@ def nosotros():
 def contacto():
     return render_template('contacto.html')
 
-"""
+
 #HABITACIONES
 @app.route('/habitaciones')
 def ver_habitaciones():
     habitaciones_db = list(db.habitacion.find())
     return render_template('habitaciones.html', habitaciones=habitaciones_db)
+
+#HABITACIONES POR ID
+@app.route('/habitacion/<habitacion_id>', methods=['GET'])
+def mostrar_detalle_habitacion(habitacion_id):
+    habitacion_db = db.habitacion.find_one({'_id': ObjectId(habitacion_id)})
+    return render_template('detalle_habitaciones.html', habitacion=habitacion_db)
+
+"""
 #RESERVAS
 @app.route('/reservas')
 def reservar():
@@ -49,11 +57,7 @@ def reservar():
 def login():
     return render_template('login.html')
 
-#HABITACIONES POR ID
-@app.route('/habitacion/<habitacion_id>', methods=['GET'])
-def mostrar_detalle_habitacion(habitacion_id):
-    habitacion_db = db.habitacion.find_one({'_id': ObjectId(habitacion_id)})
-    return render_template('detalle_habitaciones.html', habitacion=habitacion_db)
+
 
 #RUTAS DE ADMINISTRADOR
 
