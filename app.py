@@ -58,6 +58,54 @@ def login():
 
 
 
+#RESERVAS: post
+@app.route('/reservas/agregar', methods=['POST'])
+def agregar_reserva():
+    reservaciones = db.reservas
+    nombre = request.form['nombre']
+    apellido = request.form['apellido']
+    fecha_ingreso = datetime.strptime(request.form['fecha_ingreso'], '%Y-%m-%d')
+    fecha_salida = datetime.strptime(request.form['fecha_salida'], '%Y-%m-%d')
+    ciudad = request.form['ciudad']
+    correo = request.form['correo']
+    fono = request.form['fono']
+    habitaciones_db = list(db.habitacion.find())
+    habitaciones = []
+
+    id_res = len(list(db.reservas.find()))+1
+
+    if fecha_salida <= fecha_ingreso:
+        error_message = "Error: La fecha de salida debe ser posterior a la fecha de ingreso."
+        return render_template('reservas.html', error_message=error_message, habitaciones=habitaciones_db)
+
+    if (fecha_salida - fecha_ingreso).days < 1:
+        error_message = "Error: La reserva debe ser de al menos un día."
+        return render_template('reservas.html', error_message=error_message, habitaciones=habitaciones_db)
+
+    habitacion_cantidad = False
+    total=0
+    for habitacion in habitaciones_db:
+        cantidad = request.form.get(f"cantidad_{habitacion['nombre']}")
+        if cantidad and 1 <= int(cantidad) <= 10:
+            habitacion_cantidad = True
+            total=total+(int(habitacion['precio'])*int(cantidad))
+            habitaciones.append({
+                "nombre": habitacion['nombre'],
+                "valor": int(habitacion['precio']),
+                "cantidad": int(cantidad)
+            })
+
+    if not habitacion_cantidad:
+        error_message = "Error: Debe ingresar al menos una cantidad de habitación válida (entre 1 y 10)."
+        return render_template('reservas.html', error_message=error_message, habitaciones=habitaciones_db)
+
+    dias = (fecha_salida - fecha_ingreso).days
+    total_reserva=total*dias
+    reserva = Reserva(nombre, apellido, fecha_ingreso, fecha_salida, ciudad, habitaciones, "Reservado", total, dias, total_reserva, correo, fono, id_res)
+    reservaciones.insert_one(reserva.to_db_collection())
+    flash('Reserva realizada con éxito', 'success')
+    return redirect(url_for('reservar'))
+
 """
 #RUTAS DE ADMINISTRADOR
 
@@ -96,51 +144,7 @@ def agregar_mensaje():
     mensajes.insert_one(mensaje.to_db_collection())
     return redirect(url_for('home'))
 
-#RESERVAS: post
-@app.route('/reservas/agregar', methods=['POST'])
-def agregar_reserva():
-    reservaciones = db.reservas
-    nombre = request.form['nombre']
-    apellido = request.form['apellido']
-    fecha_ingreso = datetime.strptime(request.form['fecha_ingreso'], '%Y-%m-%d')
-    fecha_salida = datetime.strptime(request.form['fecha_salida'], '%Y-%m-%d')
-    ciudad = request.form['ciudad']
-    correo = request.form['correo']
-    fono = request.form['fono']
-    habitaciones_db = list(db.habitacion.find())
-    habitaciones = []
 
-    if fecha_salida <= fecha_ingreso:
-        error_message = "Error: La fecha de salida debe ser posterior a la fecha de ingreso."
-        return render_template('reservas.html', error_message=error_message, habitaciones=habitaciones_db)
-
-    if (fecha_salida - fecha_ingreso).days < 1:
-        error_message = "Error: La reserva debe ser de al menos un día."
-        return render_template('reservas.html', error_message=error_message, habitaciones=habitaciones_db)
-
-    habitacion_cantidad = False
-    total=0
-    for habitacion in habitaciones_db:
-        cantidad = request.form.get(f"cantidad_{habitacion['nombre']}")
-        if cantidad and 1 <= int(cantidad) <= 10:
-            habitacion_cantidad = True
-            total=total+(int(habitacion['precio'])*int(cantidad))
-            habitaciones.append({
-                "nombre": habitacion['nombre'],
-                "valor": int(habitacion['precio']),
-                "cantidad": int(cantidad)
-            })
-
-    if not habitacion_cantidad:
-        error_message = "Error: Debe ingresar al menos una cantidad de habitación válida (entre 1 y 10)."
-        return render_template('reservas.html', error_message=error_message, habitaciones=habitaciones_db)
-
-    dias = (fecha_salida - fecha_ingreso).days
-    total_reserva=total*dias
-    reserva = Reserva(nombre, apellido, fecha_ingreso, fecha_salida, ciudad, habitaciones, "Reservado", total, dias, total_reserva, correo, fono)
-    reservaciones.insert_one(reserva.to_db_collection())
-    flash('Reserva realizada con éxito', 'success')
-    return redirect(url_for('reservar'))
 
 #RESERVAS: CAMBIAR ESTADO -> POST
 @app.route('/estado_reserva/<reserva_id>', methods=['POST'])

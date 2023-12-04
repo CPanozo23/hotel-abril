@@ -1,5 +1,5 @@
 class Reserva:
-    def __init__(self, nombre, apellido, fecha_ingreso, fecha_salida, ciudad, habitaciones, estado, total, dias, total_reserva, correo, fono):
+    def __init__(self, nombre, apellido, fecha_ingreso, fecha_salida, ciudad, habitaciones, estado, total, dias, total_reserva, correo, fono, id_res):
         self.nombre = nombre
         self.apellido = apellido
         self.fecha_ingreso = fecha_ingreso
@@ -12,6 +12,7 @@ class Reserva:
         self.total_reserva = total_reserva
         self.correo = correo
         self.fono = fono
+        self.id_res = id_res
 
     def to_db_collection(self):
         return {
@@ -26,6 +27,7 @@ class Reserva:
             'dias': self.dias,
             'total_reserva': self.total_reserva,
             'correo': self.correo,
-            'fono': self.fono
+            'fono': self.fono,
+            'id_res': self.id_res
         }
     
