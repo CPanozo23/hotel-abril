@@ -40,19 +40,11 @@ def ver_habitaciones():
     return render_template('habitaciones.html', habitaciones=habitaciones_db)
 
 #HABITACIONES POR ID
-
 @app.route('/habitacion/<id_hab>', methods=['GET'])
 def mostrar_detalle_habitacion(id_hab):
     habitacion_db = db.habitacion.find_one({'id_hab': id_hab})
-
-    if habitacion_db is None:
-        # Maneja el caso en que no se encuentra la habitación
-        return render_template('error.html', error='Habitación no encontrada')
-
-    # Renderiza la plantilla con los datos de la habitación
     return render_template('detalle_habitaciones.html', habitacion=habitacion_db)
 
-"""
 #RESERVAS
 @app.route('/reservas')
 def reservar():
@@ -66,6 +58,7 @@ def login():
 
 
 
+"""
 #RUTAS DE ADMINISTRADOR
 
 #GESTION RESERVA

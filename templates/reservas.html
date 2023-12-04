@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+</head>
+<body>
+    {% include 'componentes/nav.html' %}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-success">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <main>
+      <section class="container-fluid p-0">
+        <div class="carousel slide bg-warning " data-bs-ride="carousel" style="height: 275px; overflow: hidden;">
+          <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+              <div class="d-flex justify-content-center align-items-center" style="height: 275px; overflow: hidden;">
+                <img src="{{ url_for('static', filename='images/reservas/reservas01.jpg') }}" class="d-block w-100" style="object-fit: cover; max-height: 100%; object-position: center 50%;" alt="...">
+              </div>
+              <div class="carousel-caption d-block text-black text-center bg-warning opacity-75 rounded p-0 m-0">
+                <h1 class="p-0 m-0">Realiza tu reserva</h1>
+              </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="10000">
+              <div class="d-flex justify-content-center align-items-center" style="height: 275px; overflow: hidden;">
+                <img src="{{ url_for('static', filename='images/reservas/reservas02.jpg') }}" class="d-block w-100" style="object-fit: cover; max-height: 100%; object-position: center 50%;" alt="...">
+              </div>
+              <div class="carousel-caption d-block text-black text-center bg-warning opacity-75 rounded p-0 m-0">
+                <h1 class="p-0 m-0">Realiza tu reserva</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+      
+      
+       
+  <section class="mt-4">
+    
+    <form action ="/reservas/agregar" method="post" class="container fw-bolder flex flex-wrap d-flex">
+      
+      <div class="form-group col-12 col-md-6">
+        <label for="nombre" class="form-label">Nombre:</label>
+          <input type="text" class="form-control" id="nombre" placeholder="ingrese su nombre" name="nombre" value="{{ request.form.nombre if error_message else '' }}" required>
+      </div>
+        <div class="form-group col-12 col-md-6" class="form-label">
+          <label for="apellido">Apellido:</label>
+            <input type="text" class="form-control" id="apellido" placeholder="ingrese su apellido" name="apellido" value="{{ request.form.apellido if error_message else '' }}" required>
+        </div>
+        <div class="form-group col-12 col-md-6">
+          <label for="correo" class="form-label">Correo:</label>
+            <input type="text" class="form-control" id="correo" placeholder="ingrese su correo" name="correo" value="{{ request.form.correo if error_message else '' }}" required>
+        </div>
+          <div class="form-group col-12 col-md-6" class="form-label">
+            <label for="correo">Teléfono:</label>
+              <input type="text" class="form-control" id="fono" placeholder="ingrese su teléfono" name="fono" value="{{ request.form.fono if error_message else '' }}" required>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <label for="fecha_ingreso" class="form-label">Fecha de Ingreso:</label>
+        <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" value="{{ request.form.fecha_ingreso if error_message else '' }}" min="{{ datetime.now().strftime('%Y-%m-%d') }}" required>
+          </div>
+            <div class="form-group col-12 col-md-6">
+              <label for="fecha_salida" class="form-label">Fecha de Salida:</label>
+        <input type="date" class="form-control" id="fecha_salida" name="fecha_salida" value="{{ request.form.fecha_salida if error_message else '' }}" min="{{ (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d') }}" required>
+              </div>
+              <div class="form-group d-inline col-12">
+                <label class="form-label mr-2">Ciudad:</label>
+                <div class="form-check d-inline mx-2">
+                    <input class="form-check-input" type="radio" name="ciudad" id="Antofagasta" value="Antofagasta" checked>
+                    <label class="form-check-label" for="Antofagasta">
+                      Antofagasta
+                    </label>
+                </div>
+                <div class="form-check d-inline mx-2">
+                    <input class="form-check-input" type="radio" name="ciudad" id="Mejillones" value="Mejillones">
+                    <label class="form-check-label" for="Mejillones">
+                      Mejillones
+                    </label>
+                </div>
+                <div class="form-check d-inline mx-2">
+                    <input class="form-check-input" type="radio" name="ciudad" id="Vmar" value="Viña del Mar">
+                    <label class="form-check-label" for="Vmar">
+                      Viña del Mar
+                    </label>
+                </div>
+            </div>
+            <h2 class="fs-4 text-center col-12">Seleccione habitaciones</h2>
+            {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+            <div class="form-group form-inline justify-content-center col-12">
+            {% for habitacion in habitaciones %}
+            <div class="form-inline col-12 col-sm-5 my-3 border rounded mx-1">
+
+              <div class="col-4 col-sm-12 col-md-4 col-lg-3 p-0 m-0">
+                <img src="{{habitacion['img_principal'] }}" class="rounded w-100" alt="{{habitacion['img_principal'] }}">
+              </div>
+              <div class="col-8 col-sm-12 col-md-8 col-lg-9 text-center">
+                <label for="number" class=" form-label fw-bold m-0 p-0" >{{ habitacion['nombre']}} ${{ habitacion['precio'] }}</label>
+                <br/>Cantidad:
+                <input type="number" class="form-control for m-0 p-0" id="cantidad_{{ habitacion['nombre'] }}" name="cantidad_{{ habitacion['nombre'] }}" min="1" max="10">
+              </div>
+              
+              </div>
+              {% endfor %}
+              </div>
+                <div class=" text-center col-12">
+                  <input type="submit" class="btn btn-primary px-5 mb-2" value="RESERVAR">
+                </div>
+            </form>
+          </section>
+  </main>
+            
+  {% include 'componentes/footer.html' %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</body>
+</html>
