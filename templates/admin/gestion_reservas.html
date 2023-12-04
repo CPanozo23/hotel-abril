@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-6 col-lg-2 col-12">Entrada: {{ reserva[ 'fecha_ingreso'].strftime('%d-%m-%Y') }} <br class="d-none d-md-block">
                 <span class="d-md-none"> | </span>
-            Salida: {{ reserva[ 'fecha_salida'].strftime('%d-%m-%Y') }}
+            Salida: {{ reserva['fecha_salida'].strftime('%d-%m-%Y') }}
             </div>
             <div class="col-md-6 col-lg-4 col-12 ">
                 <ul>
@@ -45,8 +45,8 @@
                     <span class="fw-bolder">Total: ${{ reserva['total_reserva'] }}</span> </p>
             </div>
             <div class="col-md-2 col-lg-2 col-6 ">
-                <form action="{{ url_for('cambiar_estado_reserva', reserva_id=reserva['_id'] ) }}" method="post">
-                    <input type="hidden" name="_id" value="{{ reserva['_id']}}">
+                <form action="{{ url_for('cambiar_estado_reserva', id_res=reserva['id_res'] ) }}" method="post">
+                    <input type="hidden" name="id_res" value="{{ reserva['id_res']}}">
                     <input type="hidden" name="estado" value="{{ reserva['estado']}}">
                     {% if reserva['estado']== 'Reservado' %}
                     <input type="submit" class="btn btn-warning" value="Reservado">

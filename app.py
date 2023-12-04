@@ -106,7 +106,7 @@ def agregar_reserva():
     flash('Reserva realizada con éxito', 'success')
     return redirect(url_for('reservar'))
 
-"""
+
 #RUTAS DE ADMINISTRADOR
 
 #GESTION RESERVA
@@ -118,6 +118,25 @@ def gestion_reservas():
         return render_template('/admin/gestion_reservas.html', reservas =reservas_db)
     else:
         return redirect(url_for('login'))
+
+#RESERVAS: CAMBIAR ESTADO -> POST
+@app.route('/estado_reserva/<id_res>', methods=['POST'])
+def cambiar_estado_reserva(id_res):
+    reservas = db.reservas
+    id_res = int(id_res)
+    estado_actual = request.form['estado']
+    
+    if estado_actual != "Anulado":
+        if estado_actual == "Reservado":
+            nuevo_estado = 'Confirmado'
+        elif estado_actual == "Confirmado":
+            nuevo_estado = 'Realizado'
+        elif estado_actual == "Realizado":
+            nuevo_estado = 'Anulado'
+    
+        reservas.update_one({'id_res': id_res}, {'$set': {'estado': nuevo_estado}})
+    return redirect(url_for('gestion_reservas'))
+"""
 # GESTION CONTACTO
 @app.route('/gestion_contacto')
 def gestion_contacto():
@@ -146,23 +165,7 @@ def agregar_mensaje():
 
 
 
-#RESERVAS: CAMBIAR ESTADO -> POST
-@app.route('/estado_reserva/<reserva_id>', methods=['POST'])
-def cambiar_estado_reserva(reserva_id):
-    reservas = db.reservas
-    id_obj = ObjectId(reserva_id)
-    estado_actual = request.form['estado']
 
-    if estado_actual != "Anulado":
-        if estado_actual == "Reservado":
-            nuevo_estado = 'Confirmado'
-        elif estado_actual == "Confirmado":
-            nuevo_estado = 'Realizado'
-        elif estado_actual == "Realizado":
-            nuevo_estado = 'Anulado'
-    
-        reservas.update_one({'_id': id_obj}, {'$set': {'estado': nuevo_estado}})
-    return redirect(url_for('gestion_reservas'))
 
 #MENSAJES: CAMBIAR ESTADO -> POST
 @app.route('/estado_msj/<mensaje_id>', methods=['POST'])
@@ -174,6 +177,9 @@ def cambiar_estado_msj(mensaje_id):
     mensajes.update_one({'_id': mensaje_id_obj}, {'$set': {'estado': nuevo_estado}})
     return redirect(url_for('gestion_contacto'))
 
+
+"""
+
 #LOGIN: POST
 @app.route('/admin/login', methods=['POST'])
 def validar_usuario():
@@ -182,6 +188,7 @@ def validar_usuario():
     usuarios = personal_login()
     for us in usuarios:
         if us["user"] == usuario and us["clave"] == password:
+            # Guardar información en la sesión después del inicio de sesión
             session['user_info'] = {"user": us["user"]}
             return redirect(url_for('gestion_reservas'))
     error_message = 'error: Usuario no registrado'
@@ -193,7 +200,7 @@ def validar_usuario():
 def logout():
     session.pop('user_info', None)
     return redirect(url_for('login'))
-"""
+
 @app.errorhandler(404)
 def notFound(error=None):
     message = {
