@@ -23,6 +23,13 @@
 
         
         <h1>¿Necesitas contactarte con nosotros?</h1>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-success">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
         <form action="/mensaje/agregar" method="post" class="fw-bolder">
             <div class="form-group">
                 <label for="asunto">Asunto:</label>

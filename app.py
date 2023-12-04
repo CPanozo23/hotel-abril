@@ -7,7 +7,7 @@ from models.reserva import Reserva
 from models.mensaje import Mensaje
 db = dbase.dbConnection()
 
-from bson import ObjectId
+#from bson import ObjectId
 
 from datetime import datetime, timedelta 
 
@@ -71,17 +71,13 @@ def agregar_reserva():
     fono = request.form['fono']
     habitaciones_db = list(db.habitacion.find())
     habitaciones = []
-
     id_res = len(list(db.reservas.find()))+1
-
     if fecha_salida <= fecha_ingreso:
         error_message = "Error: La fecha de salida debe ser posterior a la fecha de ingreso."
         return render_template('reservas.html', error_message=error_message, habitaciones=habitaciones_db)
-
     if (fecha_salida - fecha_ingreso).days < 1:
         error_message = "Error: La reserva debe ser de al menos un día."
         return render_template('reservas.html', error_message=error_message, habitaciones=habitaciones_db)
-
     habitacion_cantidad = False
     total=0
     for habitacion in habitaciones_db:
@@ -102,7 +98,9 @@ def agregar_reserva():
     dias = (fecha_salida - fecha_ingreso).days
     total_reserva=total*dias
     reserva = Reserva(nombre, apellido, fecha_ingreso, fecha_salida, ciudad, habitaciones, "Reservado", total, dias, total_reserva, correo, fono, id_res)
+    
     reservaciones.insert_one(reserva.to_db_collection())
+
     flash('Reserva realizada con éxito', 'success')
     return redirect(url_for('reservar'))
 
@@ -162,7 +160,8 @@ def agregar_mensaje():
     id_men = len(list(db.mensajes.find()))+1
     mensaje = Mensaje(asunto, nombre, apellido, correo, mensaje, estado, id_men)
     mensajes.insert_one(mensaje.to_db_collection())
-    return redirect(url_for('home'))
+    flash('Mensaje enviado con éxito', 'success')
+    return redirect(url_for('contacto'))
 
 #MENSAJES: CAMBIAR ESTADO -> POST
 @app.route('/estado_msj/<id_men>', methods=['POST'])
